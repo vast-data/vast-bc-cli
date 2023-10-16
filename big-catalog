@@ -4,6 +4,24 @@ role="big-catalog-cli"
 IMAGE_ID=$(sudo docker images --filter "label=role=$role" --format "{{.ID}} {{.Tag}} {{.CreatedAt}}" |
            sort -k 3 -r | head -n 1 | awk '{print $1}')
 
+if [ -z "$IMAGE_ID" ]; then
+    echo "There is no suitable image. Please, see README at https://github.com/vast-data/vast-db-cli."
+    exit 1
+fi
+
+if [[ "$1" == "--image" ]]; then
+    sudo docker images --format "{{.ID}} {{.Repository}} {{.Tag}} {{.CreatedAt}}" |
+        grep "$IMAGE_ID" |
+        awk '{print "Image ID:", $1; print "Image Name:", $2;
+              print "Image Tag:", $3;  print "Created At:", $4, $5, $6, $7}'
+    exit 0
+fi
+
+if [[ "$1" == "--version" ]]; then
+    sudo docker images --format "{{.ID}} {{.Tag}}" | grep "$IMAGE_ID" |  awk '{print $2}'
+    exit 0
+fi
+
 docker run --rm -ti -v ~/.big_catalog:/bc/.big_catalog -v /tmp:/bc_files "$IMAGE_ID" "$@"
 flag=0
 for i in "$@"; do
