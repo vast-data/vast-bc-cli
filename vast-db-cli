@@ -1,10 +1,10 @@
 #!/usr/bin/bash
 
-role="big-catalog-cli"
+role="vast-db-cli"
 IMAGE_ID=$(sudo docker images --filter "label=role=$role" --format "{{.ID}} {{.Tag}} {{.CreatedAt}}" |
            sort -k 3 -r | head -n 1 | awk '{print $1}')
 
-docker run --rm -ti -v ~/.big_catalog:/bc/.big_catalog -v /tmp:/bc_files "$IMAGE_ID" "$@"
+docker run --rm -ti -v ~/.vast_db:/vast_db/.vast_db -v /tmp:/vast_db_cli_files "$IMAGE_ID" "$@"
 flag=0
 for i in "$@"; do
     if [[ $i == "-f" ]]; then
