@@ -36,11 +36,11 @@ done
 if [[ $flag -eq 1 ]]; then
     root="${path_to::1}"
     if [[ $root != "/" ]]; then
-        tmp_path="/tmp/$path_to*"
+        tmp_path="/tmp/$path_to"
         path_to="$(pwd)/$path_to"
     else
-        tmp_path="/tmp$path_to*"
+        tmp_path="/tmp$path_to"
     fi
 
-    cp "$tmp_path" "${path_to%/*}/"
+    cp "$tmp_path"* "${path_to%/*}/"
 fi
