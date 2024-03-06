@@ -1,7 +1,7 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 role="vast-db-cli"
-IMAGE_ID=$(sudo docker images --filter "label=role=$role" --format "{{.ID}} {{.Tag}} {{.CreatedAt}}" |
+IMAGE_ID=$(docker images --filter "label=role=$role" --format "{{.ID}} {{.Tag}} {{.CreatedAt}}" |
            sort -k 3 -r | head -n 1 | awk '{print $1}')
 
 if [ -z "$IMAGE_ID" ]; then
@@ -10,7 +10,7 @@ if [ -z "$IMAGE_ID" ]; then
 fi
 
 if [[ "$1" == "--image" ]]; then
-    sudo docker images --format "{{.ID}} {{.Repository}} {{.Tag}} {{.CreatedAt}}" |
+    docker images --format "{{.ID}} {{.Repository}} {{.Tag}} {{.CreatedAt}}" |
         grep "$IMAGE_ID" |
         awk '{print "Image ID:", $1; print "Image Name:", $2;
               print "Image Tag:", $3;  print "Created At:", $4, $5, $6, $7}'
@@ -18,7 +18,7 @@ if [[ "$1" == "--image" ]]; then
 fi
 
 if [[ "$1" == "--version" ]]; then
-    sudo docker images --format "{{.ID}} {{.Tag}}" | grep "$IMAGE_ID" |  awk '{print $2}'
+    docker images --format "{{.ID}} {{.Tag}}" | grep "$IMAGE_ID" |  awk '{print $2}'
     exit 0
 fi
 
