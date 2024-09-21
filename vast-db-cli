@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 role="vast-db-cli"
 IMAGE_ID=$(sudo docker images --filter "label=role=$role" --format "{{.ID}} {{.Tag}} {{.CreatedAt}}" |
